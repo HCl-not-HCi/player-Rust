@@ -138,8 +138,10 @@ pub fn decide(game_state: GameState) -> Vec<PlayerAction> {
     let bases = game_state.bases;
     let config = game_state.config;
     let (our_bases, other_bases, empty_bases) = filter_bases(&bases, our_player);
+    // our_bases.extend(empty_bases.iter());
 
-    attack(&other_bases, &our_bases, &config)
+    // attack(&other_bases, &our_bases, &config)
+    attack(&[other_bases, empty_bases].concat(), &our_bases, &config)
 
     // vec![PlayerAction {
     //     src: 0,
