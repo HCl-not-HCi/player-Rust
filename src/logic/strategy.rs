@@ -4,7 +4,7 @@ use crate::models::{
     base::Base, base_level::BaseLevel, board_action::BoardAction, game_config::GameConfig, game_state::GameState, player_action::PlayerAction
 };
 
-const MIN_DEFENDERS: u32 = 5;
+const MIN_DEFENDERS: i32 = 5;
 
 fn euclid(x1: i32, y1: i32, z1: i32, x2: i32, y2: i32, z2: i32) -> u32 {
     let dx = (x1 - x2).abs();
@@ -60,16 +60,16 @@ fn get_min_defenders(our_base: Base, enemy_bases: &[Base], remaining_players: u3
     5
 }
 
-fn survivors(src_base: &Base, dest_base: &Base, enemy_bases: &[Base], actions: &[BoardAction], remaining_players: u32, config: &GameConfig) -> u32 {
-    let grace_period = config.paths.grace_period;
-    let death_rate = config.paths.death_rate;
+fn survivors(src_base: &Base, dest_base: &Base, enemy_bases: &[Base], actions: &[BoardAction], remaining_players: u32, config: &GameConfig) -> i32 {
+    let grace_period = config.paths.grace_period as i32;
+    let death_rate = config.paths.death_rate as i32;
 
-    let distance = get_base_distance(src_base, dest_base);
+    let distance = get_base_distance(src_base, dest_base) as i32;
     let deaths = cmp::max((distance - grace_period) * death_rate, 0);
 
     let total_attacking_bits = get_total_attacking_bits(*src_base, &actions);
 
-    let spawn_rate = get_base_level(&src_base, &config.base_levels).spawn_rate;
+    let spawn_rate = get_base_level(&src_base, &config.base_levels).spawn_rate as i32;
     // if total_attacking_bits > src_base.population + spawn_rate * 5 {
     //     // Our src_base is probably lost, go all in
     //     return src_base.population - deaths;
@@ -78,7 +78,7 @@ fn survivors(src_base: &Base, dest_base: &Base, enemy_bases: &[Base], actions: &
     //     let defenders = cmp::max(get_min_defenders(*src_base, enemy_bases, remaining_players), total_attacking_bits);
     //     return cmp::max(src_base.population - defenders, 0) - deaths;
     // }
-    return cmp::max(src_base.population - MIN_DEFENDERS, 0) - deaths;
+    return cmp::max(src_base.population as i32 - MIN_DEFENDERS, 0) - deaths;
 
     
 }
@@ -135,12 +135,12 @@ fn best_target_base<'a>(
 }
 
 /// Returns total bits currently on the way to attack the given base
-fn get_total_attacking_bits(base: Base, actions: &[BoardAction]) -> u32 {
+fn get_total_attacking_bits(base: Base, actions: &[BoardAction]) -> i32 {
     let mut total_attack_bits = 0;
 
     for action in actions {
         if action.dest == base.uid {
-            total_attack_bits += action.amount;
+            total_attack_bits += action.amount as i32;
         }
     }
 
@@ -164,7 +164,7 @@ fn attack(
                     PlayerAction {
                         src: src_base.uid,
                         dest: target_base.uid,
-                        amount: survivors
+                        amount: survivors as u32
                     }
                 )
             }
