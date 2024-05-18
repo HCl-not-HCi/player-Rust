@@ -50,13 +50,14 @@ fn filter_bases(
 }
 
 fn get_min_defenders(our_base: Base, enemy_bases: &[Base], remaining_players: u32) -> u32 {
-    let mut total_enemy_bits = 0;
+    // let mut total_enemy_bits = 0;
 
-    for enemy_base in enemy_bases {
-        total_enemy_bits += enemy_base.population;
-    }
+    // for enemy_base in enemy_bases {
+    //     total_enemy_bits += enemy_base.population;
+    // }
 
-    return cmp::max((our_base.population as f64 * 0.3).floor() as u32, ((total_enemy_bits as f64 / remaining_players as f64) * 0.3).floor() as u32);
+    // return cmp::max((our_base.population as f64 * 0.3).floor() as u32, ((total_enemy_bits as f64 / remaining_players as f64) * 0.3).floor() as u32);
+    5
 }
 
 fn survivors(src_base: &Base, dest_base: &Base, enemy_bases: &[Base], actions: &[BoardAction], remaining_players: u32, config: &GameConfig) -> u32 {
