@@ -4,7 +4,7 @@ use crate::models::{
     base::Base, base_level::BaseLevel, board_action::BoardAction, game_config::GameConfig, game_state::GameState, player_action::PlayerAction
 };
 
-// const MIN_DEFENDERS: u32 = 5;
+const MIN_DEFENDERS: u32 = 5;
 
 fn euclid(x1: i32, y1: i32, z1: i32, x2: i32, y2: i32, z2: i32) -> u32 {
     let dx = (x1 - x2).abs();
@@ -70,14 +70,15 @@ fn survivors(src_base: &Base, dest_base: &Base, enemy_bases: &[Base], actions: &
     let total_attacking_bits = get_total_attacking_bits(*src_base, &actions);
 
     let spawn_rate = get_base_level(&src_base, &config.base_levels).spawn_rate;
-    if total_attacking_bits > src_base.population + spawn_rate * 5 {
-        // Our src_base is probably lost, go all in
-        return src_base.population - deaths;
-    } else {
-        // We can still defend our src_base, so keep some defenders at src_base
-        let defenders = cmp::max(get_min_defenders(*src_base, enemy_bases, remaining_players), total_attacking_bits);
-        return cmp::max(src_base.population - defenders, 0) - deaths;
-    }
+    // if total_attacking_bits > src_base.population + spawn_rate * 5 {
+    //     // Our src_base is probably lost, go all in
+    //     return src_base.population - deaths;
+    // } else {
+    //     // We can still defend our src_base, so keep some defenders at src_base
+    //     let defenders = cmp::max(get_min_defenders(*src_base, enemy_bases, remaining_players), total_attacking_bits);
+    //     return cmp::max(src_base.population - defenders, 0) - deaths;
+    // }
+    return cmp::max(src_base.population - MIN_DEFENDERS, 0) - deaths;
 
     
 }
