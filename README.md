@@ -35,10 +35,18 @@ cargo build
 
 This application template provides a HTTP server with a single POST endpoint (/) on port `3000`.
 The bit-dealer sends a POST request containing the current game state as a JSON object.
-Your task is to implement a function which returns a `PlayerAction` as a response.
-You'll find a predefined function `decide()` in this file: `/logic/strategy.rs`.
-In this file you can add unit-tests to quickly debug your application locally.
-Run all unit-tests with the following command (executed in the root path of this project):
+Your task is to implement a function which returns a list of  `PlayerAction`s as response.
+You'll find a predefined function `decide()` in this file: `src/logic/strategy.rs`.
+Use this function to implement the logic of your strategy.
+
+If you want to test that your code can parse the game state that it receives from the server,
+you can use the following curl command (after executing `cargo run` above):
+
+```sh
+curl -X POST localhost:3000 -H 'Content-Type: application/json' --data @example_game_state.json
+```
+
+If you wrote unit tests, you can run them with the following command (executed in the root path of this project):
 
 ```bash
 cargo test
