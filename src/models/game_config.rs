@@ -2,17 +2,10 @@ use crate::models::base_level::BaseLevel;
 use crate::models::path_config::PathConfig;
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Deserialize, Debug, Default, Clone)]
 pub struct GameConfig {
-    pub base_levels: Vec<BaseLevel>, // all available base levels
-    pub paths: PathConfig,           // settings containing paths between bases
-}
-
-impl Default for GameConfig {
-    fn default() -> Self {
-        GameConfig {
-            base_levels: vec![BaseLevel::default()],
-            paths: PathConfig::default(),
-        }
-    }
+    /// Available base level in this game
+    pub base_levels: Vec<BaseLevel>,
+    /// Contains the travel difficulty (path) between bases
+    pub paths: PathConfig,
 }

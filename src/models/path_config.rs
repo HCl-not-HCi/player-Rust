@@ -1,16 +1,10 @@
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
+#[derive(Deserialize, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
 pub struct PathConfig {
-    pub grace_period: u32, // time until groups of bits take damage
-    pub death_rate: u32,   // number of units killed every tick after surpassing the grace period
-}
-
-impl Default for PathConfig {
-    fn default() -> Self {
-        PathConfig {
-            grace_period: 0,
-            death_rate: 0,
-        }
-    }
+    /// During the grace period your Bits travel without taking damage, meaning no bits die.
+    pub grace_period: u32,
+    /// After the grace period, every tick `death_rate` Bits die.
+    /// You could say that they starve :)
+    pub death_rate: u32,
 }

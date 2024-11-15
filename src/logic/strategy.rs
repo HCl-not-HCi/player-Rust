@@ -197,6 +197,7 @@ pub fn decide(game_state: GameState) -> Vec<PlayerAction> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs::read_to_string;
 
     #[test]
     fn decide_test() {
@@ -205,5 +206,12 @@ mod tests {
         let result = decide(GameState::default());
 
         assert!(want == result)
+    }
+
+    #[test]
+    fn parse_game_state() {
+        let json_str = read_to_string("./example_game_state.json").unwrap();
+
+        let _json: GameState = serde_json::from_str(&json_str).unwrap();
     }
 }

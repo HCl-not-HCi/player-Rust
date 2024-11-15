@@ -1,22 +1,16 @@
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
+#[derive(Deserialize, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Clone, Copy)]
 pub struct Game {
-    pub uid: u32,               // uid of game
-    pub tick: u32,              // tick in game
-    pub player_count: u32,      // number of players
-    pub remaining_players: u32, // number of players remaining
-    pub player: u32,            // uid of your player
-}
-
-impl Default for Game {
-    fn default() -> Self {
-        Game {
-            uid: 0,
-            tick: 0,
-            player_count: 0,
-            remaining_players: 0,
-            player: 0,
-        }
-    }
+    /// UID of this game
+    pub uid: u32,
+    /// Current tick in this game
+    pub tick: u32,
+    /// Number of total players in this game
+    pub player_count: u32,
+    /// Number of remaining players in this game.
+    /// This number will decrease as players lose all their bases.
+    pub remaining_players: u32,
+    /// UID of your player
+    pub player: u32,
 }
